@@ -1,20 +1,30 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.*;
 
-// import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 class CarTest {
     static Car _car;
 
     @BeforeAll
-    static void beforeAll() {
-        // TODO Create _car from JSON for now dummy car hardcoded...
-        _car = new Car(1, "Coucou", null);
+    static void beforeAll() throws IOException {
+        Gson g = new Gson();
+        String fileName = "./src/main/resources/dataCar.json";
+        String fileContent = new String(Files.readAllBytes(Paths.get(fileName)));
+        // JsonObject jsonObject = JsonParser.parseString(fileContent).getAsJsonObject();
+        // String items = jsonObject.get("items").toString();
+        // System.out.println(items);
+        // System.out.println(jsonObject.get("name").getAsString()); // John
+        String json = "{\"id\": \"939948275\", \"name\": \"GE 123201\",\"column_values\": [{\"title\": \"Modèle\",\"text\": \"Volkswagen California\"}]}";
+        _car = g.fromJson(json, Car.class);
     }
 
     @Test
