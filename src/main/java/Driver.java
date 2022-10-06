@@ -6,10 +6,11 @@ public class Driver extends Item{
 
     public Driver(int id, String name, List<Column> column_values, Car car){
         super(id, name, column_values);
+        this.car = car;
     }
     
     public Car getCar() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.car;
     }
 
 }

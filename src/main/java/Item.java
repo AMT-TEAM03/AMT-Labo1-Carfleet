@@ -7,6 +7,9 @@ public class Item {
     private List<Column> columns;
 
     public Item(int id, String name, List<Column> column_values){
+        this.name = name;
+        this.id = id;
+        this.columns = column_values;
     }
 
     public class Column {
@@ -14,18 +17,21 @@ public class Item {
         String value;
 
         public Column(String title, String text){
+            this.name = title;
+            this.value = text;        
         }
     }
 
     public String getPlate() {
-        throw new UnsupportedOperationException("Not implemented...");
+        // throw new UnsupportedOperationException("Not implemented");
+        return this.name;
     }
 
     public int getId() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.id;
     }
 
     public List<Column> getColumns() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.columns;
     }
 }
