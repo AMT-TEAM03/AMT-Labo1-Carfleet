@@ -1,19 +1,25 @@
 import java.util.List;
 
-public class Item {
+import com.google.gson.annotations.SerializedName;
 
-    private String name;
+public class Item {
+    @SerializedName(value="name")
+    private String plate;
     private int id;
+    @SerializedName(value="column_values")
     private List<Column> columns;
 
-    public Item(int id, String name, List<Column> column_values){
-        this.name = name;
+    // TODO Not needed for deserialization
+    public Item(int id, String plate, List<Column> columns){
+        this.plate = plate;
         this.id = id;
-        this.columns = column_values;
+        this.columns = columns;
     }
 
     public class Column {
+        @SerializedName(value="title")
         String name;
+        @SerializedName(value = "text")
         String value;
 
         public Column(String title, String text){
@@ -24,7 +30,7 @@ public class Item {
 
     public String getPlate() {
         // throw new UnsupportedOperationException("Not implemented");
-        return this.name;
+        return this.plate;
     }
 
     public int getId() {

@@ -8,23 +8,28 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 class CarTest {
-    static Car _car;
+    static Item _car;
 
     @BeforeAll
     static void beforeAll() throws IOException {
+        String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/dataCar.json")));
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        JsonObject data = obj.get("data").getAsJsonObject();
+        JsonArray boards = data.get("boards").getAsJsonArray();
+        JsonObject board = boards.get(0).getAsJsonObject();
+        JsonArray items = board.get("items").getAsJsonArray();
+        JsonObject item = items.get(0).getAsJsonObject();
+        // String items = JsonParser.parseString(json).getAsJsonObject().get("data").getAsJsonObject().get("boards").getAsJsonArray().get(0).getAsJsonObject().get("items").getAsString();
         Gson g = new Gson();
-        String fileName = "./src/main/resources/dataCar.json";
-        String fileContent = new String(Files.readAllBytes(Paths.get(fileName)));
-        // JsonObject jsonObject = JsonParser.parseString(fileContent).getAsJsonObject();
-        // String items = jsonObject.get("items").toString();
-        // System.out.println(items);
-        // System.out.println(jsonObject.get("name").getAsString()); // John
-        String json = "{\"id\": \"939948275\", \"name\": \"GE 123201\",\"column_values\": [{\"title\": \"Modèle\",\"text\": \"Volkswagen California\"}]}";
-        _car = g.fromJson(json, Car.class);
+        // String json = "{\"id\": \"939948275\", \"name\": \"GE 123201\",\"column_values\": [{\"title\": \"Modèle\",\"text\": \"Volkswagen California\"}]}";
+        _car = g.fromJson(item, Item.class);
+        // System.out.println(person.getPlate()); // John
+        // System.out.println(g.toJson(person)); // {"name":"John"}
     }
 
     @Test
