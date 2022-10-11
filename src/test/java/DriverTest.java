@@ -9,22 +9,24 @@ import java.nio.file.Paths;
 
 public class DriverTest {
     static Driver _driver;
+    static Car _car;
 
     @BeforeAll
     static void beforeAll() throws IOException {
+        _car = Car.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
         _driver = Driver.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
     }
 
     @Test
     void testPlate() {
-        String expectedPlate = "GE 4567889";
+        String expectedPlate = "Responsable véhicule : Maxime Fontaines";
 
-        assertEquals(expectedPlate, _driver.getPlate());
+        assertEquals(expectedPlate, _driver.getName());
     }
 
     @Test
     void testId() {
-        int expectedInteger = 939948325;
+        int expectedInteger = 1879863460;
 
         assertEquals(expectedInteger, _driver.getId());
     }
@@ -39,7 +41,7 @@ public class DriverTest {
     @Test
     void testCar() {
         // Get car from JSON id from Fleet
-        Car expected_car = new Car(1, "coucou", null); 
+        Car expected_car = Fleet.getInstance().getCar(939948275);
         assertEquals(_driver.getCar(), expected_car);
     }
 }
