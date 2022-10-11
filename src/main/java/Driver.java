@@ -1,47 +1,58 @@
 import java.util.List;
 
 import com.google.gson.*;
+import com.google.gson.annotations.SerializedName;
 
 public class Driver{
 
     private Car car;
-    private String name;
+    @SerializedName(value="name")
+    private String plate;
     private int id;
+    @SerializedName(value="column_values")
     private List<Column> columns;
+    // TODO Check this
     private static Fleet fleet;
 
     public class Column {
+        @SerializedName(value="title")
         String name;
+        @SerializedName(value="text")
         String value;
 
         public Column(String title, String text){
+            this.name = title;
+            this.value = text;
         }
     }
 
-    public Driver(int id, String name, List<Column> column_values, Car car){
+    public Driver(int id, String plate, List<Column> columns, Car car){
         this.id = id;
-        this.name = name;
-        this.columns = column_values;
+        this.plate = plate;
+        this.columns = columns;
     }
     
     public Car getCar() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.car;
     }
 
     public String getPlate() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.plate;
     }
 
     public int getId() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.id;
     }
 
     public List<Column> getColumns() {
-        throw new UnsupportedOperationException("Not implemented...");
+        return this.columns;
     }
 
     public Column getColumn(String name){
-        throw new UnsupportedOperationException("Not implemented...");
+        for(Column col : columns)
+            if(col.name == name)
+                return col;
+        return null;
     }
 
     static public Driver fromJson(String jsonString){

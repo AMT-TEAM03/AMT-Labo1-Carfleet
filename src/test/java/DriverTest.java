@@ -12,6 +12,7 @@ public class DriverTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
+        Car.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
         _driver = Driver.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
     }
 
