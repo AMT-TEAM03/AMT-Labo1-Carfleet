@@ -21,7 +21,7 @@ public class DriverTest {
     void testPlate() {
         String expectedPlate = "Responsable véhicule : Maxime Fontaines";
 
-        assertEquals(expectedPlate, _driver.getPlate());
+        assertEquals(expectedPlate, _driver.getName());
     }
 
     @Test

@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Driver{
 
     private Car car;
-    @SerializedName(value="name")
-    private String plate;
+    private String name;
     private int id;
     @SerializedName(value="column_values")
     private List<Column> columns;
@@ -26,18 +25,19 @@ public class Driver{
         }
     }
 
-    public Driver(int id, String plate, List<Column> columns, Car car){
+    public Driver(int id, String name, List<Column> columns, Car car){
         this.id = id;
-        this.plate = plate;
+        this.name = name;
         this.columns = columns;
+        this.car = car;
     }
     
     public Car getCar() {
         return this.car;
     }
 
-    public String getPlate() {
-        return this.plate;
+    public String getName() {
+        return this.name;
     }
 
     public int getId() {
