@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.*;
@@ -60,7 +59,7 @@ public class Car{
         Gson g = new Gson();
         Car car = g.fromJson(item, Car.class);
         if(fleet == null)
-            fleet = new Fleet(new ArrayList<Car>());
+            fleet = Fleet.getInstance();
         fleet.addCar(car);
         return car;
     }

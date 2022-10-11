@@ -69,6 +69,8 @@ public class Driver{
         JsonObject driver_item = subitems.get(0).getAsJsonObject();
         Gson g = new Gson();
         Driver driver = g.fromJson(driver_item, Driver.class);
+        if(fleet == null)
+            fleet = Fleet.getInstance();
         driver.car = fleet.getCar(id_car);
         return driver;
     }
