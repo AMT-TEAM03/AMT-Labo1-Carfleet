@@ -10,7 +10,7 @@ class CarTest {
     static Car _car;
 
     @BeforeAll
-    static void beforeAll() throws IOException {
+    static void beforeAll() throws IOException, Item.EmptyJsonException {
         _car = Car.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataCar.json")), Charset.forName("UTF-8")));
     }
 
