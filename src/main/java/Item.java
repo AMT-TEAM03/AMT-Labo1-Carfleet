@@ -1,3 +1,7 @@
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.lang.reflect.Executable;
 import java.util.List;
 
@@ -32,6 +36,38 @@ public class Item {
 
     public List<Column> getColumns() {
         throw new UnsupportedOperationException("Not implemented...");
+    }
+
+    public static JsonArray getJsonData(String jsonString) throws JsonException {
+        String json = jsonString;
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        if(obj.size() < 1){
+            throw new Item.EmptyJsonException("");
+        }
+
+        if(!obj.has("data")){
+            throw new Item.MissingFieldsException("data");
+        }
+        JsonObject data = obj.get("data").getAsJsonObject();
+        if(data.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
+        if(!data.has("boards")){
+            throw new Item.MissingFieldsException("boards");
+        }
+        JsonArray boards = data.get("boards").getAsJsonArray();
+        if(boards.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
+        JsonObject board = boards.get(0).getAsJsonObject();
+
+        if(!board.has("items")){
+            throw new Item.MissingFieldsException("items");
+        }
+
+        return board.get("items").getAsJsonArray();
     }
 
     public static class JsonException extends Exception{

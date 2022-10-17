@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 
 import com.google.gson.*;
@@ -48,59 +49,46 @@ public class Car{
         return null;
     }
 
-    static public Car fromJson(String jsonString) throws Item.JsonException {
-        String json = jsonString;
-        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
-        if(obj.size() < 1){
-            throw new Item.EmptyJsonException("");
-        }
+    static public Car fromJson(JsonArray jsonData, List<Car> carList) throws Item.JsonException {
+        boolean error = false;
+        HashSet<String> errorMsg = new HashSet<>();
 
-        if(!obj.has("data")){
-            throw new Item.MissingFieldsException("data");
-        }
-        JsonObject data = obj.get("data").getAsJsonObject();
-        if(data.size() < 1){
+        if(jsonData.size() < 1){
             throw new Item.BadStructureException("");
         }
 
-        if(!data.has("boards")){
-            throw new Item.MissingFieldsException("boards");
-        }
-        JsonArray boards = data.get("boards").getAsJsonArray();
-        if(boards.size() < 1){
-            throw new Item.BadStructureException("");
-        }
+        for(int i = 0; i < jsonData.size(); i++){
+            try {
+                JsonObject item = jsonData.get(i).getAsJsonObject();
 
-        JsonObject board = boards.get(0).getAsJsonObject();
+                if(!item.has("id")){
+                    throw new Item.MissingFieldsException("id");
+                }
 
-        if(!board.has("items")){
-            throw new Item.MissingFieldsException("items");
-        }
-        JsonArray items = board.get("items").getAsJsonArray();
-        if(items.size() < 1){
-            throw new Item.BadStructureException("");
-        }
+                if(!item.has("name")){
+                    throw new Item.MissingFieldsException("name");
+                }
 
-        JsonObject item = items.get(0).getAsJsonObject();
+                if(!item.has("column_values")){
+                    throw new Item.MissingFieldsException("column_values");
+                }
 
-        if(!item.has("id")){
-            throw new Item.MissingFieldsException("id");
-        }
-
-        if(!item.has("name")){
-            throw new Item.MissingFieldsException("name");
+                Gson g = new Gson();
+                Car car = g.fromJson(item, Car.class);
+                carList.add(car);
+            }catch (Item.MissingFieldsException e){
+                error = true;
+                errorMsg.add(e.getMessage());
+            }
         }
 
-        if(!item.has("column_values")){
-            throw new Item.MissingFieldsException("column_values");
+        if(error){
+            String messageError = "";
+            for(String e : errorMsg)
+                messageError = messageError + e + ", ";
+
+            throw new Item.MissingFieldsException(messageError.substring(0, messageError.length()-2));
         }
-
-        Gson g = new Gson();
-        Car car = g.fromJson(item, Car.class);
-        if(fleet == null)
-            fleet = Fleet.getInstance();
-        fleet.addCar(car);
-        return car;
-
+        return null;
     }
 }
