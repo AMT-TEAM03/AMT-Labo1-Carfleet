@@ -126,9 +126,4 @@ public class JsonExceptionTest {
                     Car.fromJson(jsonDriver6);
                 });
     }
-
-    @Test
-    void testUnknownType(){
-
-    }
 }

@@ -48,19 +48,38 @@ public class Car{
         return null;
     }
 
-    static public Car fromJson(String jsonString){
-        String json = new String(jsonString);
+    static public Car fromJson(String jsonString) throws Item.JsonException {
+        String json = jsonString;
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        if(obj.size() < 1){
+            throw new Item.EmptyJsonException("");
+        }
         JsonObject data = obj.get("data").getAsJsonObject();
+        if(data.size() < 1){
+            throw new Item.BadStructureException("");
+        }
         JsonArray boards = data.get("boards").getAsJsonArray();
+        if(boards.size() < 1){
+            throw new Item.BadStructureException("");
+        }
         JsonObject board = boards.get(0).getAsJsonObject();
         JsonArray items = board.get("items").getAsJsonArray();
+        if(items.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
         JsonObject item = items.get(0).getAsJsonObject();
+
+        if(!item.has("id") || !item.has("name") || !item.has("column_values")){
+            throw new Item.MissingFieldsException("blabla");
+        }
+
         Gson g = new Gson();
         Car car = g.fromJson(item, Car.class);
         if(fleet == null)
             fleet = Fleet.getInstance();
         fleet.addCar(car);
         return car;
+
     }
 }
