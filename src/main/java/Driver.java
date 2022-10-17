@@ -107,11 +107,11 @@ public class Driver{
         JsonObject driver_item = subitems.get(0).getAsJsonObject();
 
         if(!driver_item.has("id")){
-            throw new Item.MissingFieldsException("item.subitems..id");
+            throw new Item.MissingFieldsException("item.subitems.id");
         }
 
         if(!driver_item.has("name")){
-            throw new Item.MissingFieldsException("item.subitems..name");
+            throw new Item.MissingFieldsException("item.subitems.name");
         }
 
         if(!driver_item.has("column_values")){

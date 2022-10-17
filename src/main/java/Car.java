@@ -92,7 +92,7 @@ public class Car{
         }
 
         if(!item.has("column_values")){
-            throw new Item.MissingFieldsException("");
+            throw new Item.MissingFieldsException("column_values");
         }
 
         Gson g = new Gson();
