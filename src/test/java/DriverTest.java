@@ -12,14 +12,16 @@ public class DriverTest {
     static Car _car;
 
     @BeforeAll
-    static void beforeAll() throws IOException {
-        _car = Car.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
+    static void beforeAll() throws IOException, Item.JsonException {
+        _car = Car.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataCar.json")), Charset.forName("UTF-8")));
         _driver = Driver.fromJson(new String(Files.readAllBytes(Paths.get("./src/main/resources/dataDriver.json")), Charset.forName("UTF-8")));
     }
 
     @Test
     void testPlate() {
-        String expectedPlate = "Responsable véhicule : Maxime Fontaines";
+        String expectedPlate = new String("Responsable véhicule : Maxime Fontaines");
+
+        System.out.println(expectedPlate);
 
         assertEquals(expectedPlate, _driver.getName());
     }

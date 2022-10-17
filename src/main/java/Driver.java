@@ -55,18 +55,69 @@ public class Driver{
         return null;
     }
 
-    static public Driver fromJson(String jsonString){
-        String json = new String(jsonString);
+    static public Driver fromJson(String jsonString) throws Item.JsonException {
+        String json = jsonString;
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        if(obj.size() < 1){
+            throw new Item.EmptyJsonException("");
+        }
+
+        if(!obj.has("data")){
+            throw new Item.MissingFieldsException("data");
+        }
         JsonObject data = obj.get("data").getAsJsonObject();
+        if(data.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
+        if(!data.has("boards")){
+            throw new Item.MissingFieldsException("boards");
+        }
         JsonArray boards = data.get("boards").getAsJsonArray();
+        if(boards.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
         JsonObject board = boards.get(0).getAsJsonObject();
+
+        if(!board.has("items")){
+            throw new Item.MissingFieldsException("items");
+        }
         JsonArray items = board.get("items").getAsJsonArray();
+        if(items.size() < 1){
+            throw new Item.BadStructureException("");
+        }
+
         JsonObject item = items.get(0).getAsJsonObject();
+
+        if(!item.has("id")){
+            throw new Item.MissingFieldsException("id");
+        }
+
+        if(!item.has("name")){
+            throw new Item.MissingFieldsException("name");
+        }
+
+        if(!item.has("subitems")){
+            throw new Item.MissingFieldsException("item.subitems");
+        }
+
         int id_car = item.get("id").getAsInt();
-        // String plaque_car = item.get("name").getAsString();
         JsonArray subitems = item.get("subitems").getAsJsonArray();
         JsonObject driver_item = subitems.get(0).getAsJsonObject();
+
+        if(!driver_item.has("id")){
+            throw new Item.MissingFieldsException("item.subitems.id");
+        }
+
+        if(!driver_item.has("name")){
+            throw new Item.MissingFieldsException("item.subitems.name");
+        }
+
+        if(!driver_item.has("column_values")){
+            throw new Item.MissingFieldsException("item.subitems.column_values");
+        }
+
         Gson g = new Gson();
         Driver driver = g.fromJson(driver_item, Driver.class);
         if(fleet == null)

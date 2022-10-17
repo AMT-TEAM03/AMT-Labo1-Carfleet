@@ -1,0 +1,20 @@
+{
+  "data": {
+    "boards": [
+      {
+        "items": [
+          {
+            "id": "939948275",
+            "name": "GE 123201",
+            "subitems": [
+              {
+                "id": "1879863460",
+                "name": "Responsable véhicule : Maxime Fontaines"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
